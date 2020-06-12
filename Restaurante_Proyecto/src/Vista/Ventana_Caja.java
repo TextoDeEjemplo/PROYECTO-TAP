@@ -10,8 +10,7 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,12 +29,22 @@ public class Ventana_Caja extends JFrame {
     Color panelPlatillos = new Color(65, 65, 65 );
     
     DefaultTableModel cobro;
+
+    //CAMBIOS PARA MOVER SIN BORDES
+    private JFrame control;
+    int pX,pY;
+    JLabel labelTitulo;
     
     public Ventana_Caja()
     {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         add(crearPanelCobrar());
         setSize(new Dimension(1000,550));
+
+        //CAMBIOS PARA MOVERSE SIN BORDES
+
+        control=this;
+        setUndecorated(true);
         setLocationRelativeTo(null);
         setVisible(true);
         
@@ -57,6 +66,8 @@ public class Ventana_Caja extends JFrame {
         labelTitulo.setForeground(Color.WHITE);
         panelTitulo.add(labelTitulo);
 
+
+
         JPanel panelLista=new JPanel();
         panelLista.setBorder(new MatteBorder(10,10,10,10,Fondo));
         panelLista.setLayout(new BoxLayout(panelLista,BoxLayout.Y_AXIS));
@@ -65,6 +76,30 @@ public class Ventana_Caja extends JFrame {
         labelPedidos.setFont(new Font("Century Gothic",Font.BOLD,20));
         //labelPedidos.setBackground(new Color(81,90,90));
         labelPedidos.setForeground(Color.WHITE);
+
+        //CAMBIOS PARA MOVERE SIN BORDES
+        panelTitulo.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                // Get x,y and store them
+                pX = me.getX();
+                pY = me.getY();
+
+            }
+
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
+
+        panelTitulo.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
 
 
         list=new JTable();
@@ -141,6 +176,8 @@ public class Ventana_Caja extends JFrame {
 
         panelPrincipal.add(panelTitulo, BorderLayout.NORTH);
         panelPrincipal.add(panelCentral, BorderLayout.CENTER);
+
+
 
         return panelPrincipal;
     }

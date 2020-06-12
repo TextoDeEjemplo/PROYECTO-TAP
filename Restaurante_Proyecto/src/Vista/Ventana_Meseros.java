@@ -16,8 +16,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
@@ -128,6 +127,10 @@ public class Ventana_Meseros extends JFrame
     LightScrollPane panelBebidasCalientes = panelBebidasCalientes();
     LightScrollPane panelPostres = panelPostre();
     LightScrollPane panelBuscado = panelBuscado();
+
+    //CAMBIOS PARA MOVER SIN BORDES
+    private JFrame control;
+    int pX,pY;
     
     
     public Ventana_Meseros ()
@@ -137,7 +140,6 @@ public class Ventana_Meseros extends JFrame
         setBackground(Fondo);
         setForeground(Fondo);
         setSize(1100,630);
-        setUndecorated(true);
             
         setDefaultCloseOperation(EXIT_ON_CLOSE);        
         setLocationRelativeTo(null);
@@ -155,8 +157,15 @@ public class Ventana_Meseros extends JFrame
         panelBebidasFrias.setVisible(false);
         panelBebidasCalientes.setVisible(false);
         panelPostres.setVisible(false);
+
+        //CAMBIOS PARA MOVERSE SIN BORDES
+
+        control=this;
+        setUndecorated(true);
+        setLocationRelativeTo(null);
+        setVisible(true);
         
-        setVisible(true);        
+
     }
     
      public JPanel topPanel()
@@ -190,6 +199,30 @@ public class Ventana_Meseros extends JFrame
 
         topPanel.add(botones, BorderLayout.EAST);
         topPanel.add(nombre, BorderLayout.CENTER);
+
+        //CAMBIOS PARA MOVERE SIN BORDES
+        topPanel.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                // Get x,y and store them
+                pX = me.getX();
+                pY = me.getY();
+
+            }
+
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
+
+        topPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
         
         
         

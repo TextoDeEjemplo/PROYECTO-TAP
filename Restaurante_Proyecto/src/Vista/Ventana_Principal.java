@@ -11,6 +11,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -42,6 +45,11 @@ public class Ventana_Principal extends JFrame
     JButton administrador;
     
     JButton salir;
+
+    //CAMBIOS PARA MOVER SIN BORDES
+    private JFrame control;
+    int pX,pY;
+    JLabel labelTitulo;
     
     public Ventana_Principal()
     {
@@ -53,6 +61,13 @@ public class Ventana_Principal extends JFrame
         add(botonesPrincipales(), BorderLayout.CENTER);
         add(panelInferior(), BorderLayout.SOUTH);
         setBackground(Fondo);
+
+
+        //CAMBIOS PARA MOVERSE SIN BORDES
+
+        control=this;
+        setUndecorated(true);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
     
@@ -65,13 +80,40 @@ public class Ventana_Principal extends JFrame
         
         JPanel superior = new JPanel();
         superior.setBackground(new Color(25,25,25));
+
+        //CAMBIOS PARA MOVERE SIN BORDES
+        superior.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                // Get x,y and store them
+                pX = me.getX();
+                pY = me.getY();
+
+            }
+
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
+
+        superior.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
         
-        JLabel labelTitulo=new JLabel("PRINCIPAL");
+        labelTitulo=new JLabel("PRINCIPAL");
         labelTitulo.setFont(new Font("Agency FB", 1,25));
         labelTitulo.setForeground(Color.WHITE);
         superior.add(labelTitulo);
         content.add(superior , BorderLayout.NORTH);
-        content.add(Box.createRigidArea(new Dimension(100, 90)), BorderLayout.CENTER);        
+        content.add(Box.createRigidArea(new Dimension(100, 90)), BorderLayout.CENTER);
+
+
+
         return content;
     }
     

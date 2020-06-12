@@ -6,14 +6,12 @@
 package restaurante_proyecto;
  
 import Modelo.Modelo;
-import Vista.Ventana_Meseros;
-import Vista.Ventana_Administrador;
+import Vista.*;
 import Controlador.Controlador_Restaurante;
-import Vista.Ventana_Caja;
-import Vista.Ventana_Cocina;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -42,16 +40,59 @@ public class Restaurante_Proyecto
     }
     public static void main(String[] args) 
     {
-        
+        //Agrego esta porque supongo es la inicial
+        Ventana_Principal ventana_principal=new Ventana_Principal();
+        ventana_principal.setVisible(true);
+
         Ventana_Meseros vista_meseros = new Ventana_Meseros();
+        //desactivarVista(vista_meseros);
+
         Ventana_Administrador vista_admin = new Ventana_Administrador();
+        //desactivarVista(vista_admin);
+
         Ventana_Cocina vista_cocina = new Ventana_Cocina();
+        //desactivarVista(vista_cocina);
+
         Ventana_Caja vista_caja = new Ventana_Caja();
+        //desactivarVista(vista_caja);
+
         Modelo modelo = new Modelo();
         Controlador_Restaurante controlar_meseros = new Controlador_Restaurante(vista_meseros, vista_admin, vista_cocina, vista_caja, modelo);
         vista_meseros.conectarControlador(controlar_meseros);
-        vista_admin.conectarControlador(controlar_meseros);    
-        vista_caja.conectarControlador(controlar_meseros); 
-    }
+        vista_admin.conectarControlador(controlar_meseros);
+        vista_caja.conectarControlador(controlar_meseros);
 
+
+
+    }
+    //Este método está pensado para que al inicio solo se muestre la primera ventana y no todas al mismo tiempo alv
+    public static void iniciar()
+    {
+        Ventana_Meseros vista_meseros = new Ventana_Meseros();
+        desactivarVista(vista_meseros);
+
+        Ventana_Administrador vista_admin = new Ventana_Administrador();
+        desactivarVista(vista_admin);
+
+        Ventana_Cocina vista_cocina = new Ventana_Cocina();
+        desactivarVista(vista_cocina);
+
+        Ventana_Caja vista_caja = new Ventana_Caja();
+        desactivarVista(vista_caja);
+
+        Modelo modelo = new Modelo();
+        Controlador_Restaurante controlar_meseros = new Controlador_Restaurante(vista_meseros, vista_admin, vista_cocina, vista_caja, modelo);
+        vista_meseros.conectarControlador(controlar_meseros);
+        vista_admin.conectarControlador(controlar_meseros);
+        vista_caja.conectarControlador(controlar_meseros);
+
+        //Agrego esta porque supongo es la inicial
+        Ventana_Principal ventana_principal=new Ventana_Principal();
+
+
+    }
+    public static void desactivarVista(JFrame frame)
+    {
+        frame.setVisible(false);
+    }
 }

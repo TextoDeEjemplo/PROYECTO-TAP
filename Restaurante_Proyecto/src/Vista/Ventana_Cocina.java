@@ -13,6 +13,9 @@ package Vista;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableColumnModel;
@@ -34,6 +37,10 @@ public class Ventana_Cocina extends JFrame {
     Color TopPane = new Color(203, 92, 15);
     
     Font fuenteTop = new Font("Agency FB", 1, 40);
+
+    //CAMBIOS PARA MOVER SIN BORDES
+    private JFrame control;
+    int pX,pY;
     
     public Ventana_Cocina()
     {
@@ -54,6 +61,30 @@ public class Ventana_Cocina extends JFrame {
         labelTitulo.setForeground(Color.WHITE);
         panelTitulo.add(labelTitulo);
         panelPrincipal.add(panelTitulo);
+
+        //CAMBIOS PARA MOVERE SIN BORDES
+        panelTitulo.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                // Get x,y and store them
+                pX = me.getX();
+                pY = me.getY();
+
+            }
+
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
+
+        panelTitulo.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
 
         panelTabla=new JPanel();
         panelTabla.setBackground(Fondo2);
@@ -85,8 +116,15 @@ public class Ventana_Cocina extends JFrame {
         scroll.setViewportView(panelscroll);
         panelTabla.add(scroll);
 
-        panelPrincipal.add(panelTabla);                    
+        panelPrincipal.add(panelTabla);
+
+        //CAMBIOS PARA MOVERSE SIN BORDES
+
+        control=this;
+        setUndecorated(true);
+        setLocationRelativeTo(null);
         setVisible(true);
+
     }
     
      

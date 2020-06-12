@@ -20,8 +20,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -143,7 +142,12 @@ public class Ventana_Administrador extends JFrame
       
     
     PreparedStatement ps;
-    ResultSet res;        
+    ResultSet res;
+
+    //CAMBIOS PARA MOVER SIN BORDES
+    private JFrame control;
+    int pX,pY;
+    JLabel labelTitulo;
     
     
     public String nombrebd="";
@@ -151,9 +155,14 @@ public class Ventana_Administrador extends JFrame
     {
         super("ADMINISTRADORES");
         setSize(920,650);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); 
-        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         add(principal());
+
+        //CAMBIOS PARA MOVERSE SIN BORDES
+
+        control=this;
+        setUndecorated(true);
+        setLocationRelativeTo(null);
         setVisible(true);
         
     }
@@ -194,6 +203,31 @@ public class Ventana_Administrador extends JFrame
         top.add(rigidArea, BorderLayout.WEST);
         top.add(panelC, BorderLayout.CENTER);
         top.add(botones, BorderLayout.EAST);
+
+        //CAMBIOS PARA MOVER SIN BORDES
+        top.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                // Get x,y and store them
+                pX = me.getX();
+                pY = me.getY();
+
+            }
+
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
+
+        top.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent me) {
+
+                control.setLocation(control.getLocation().x + me.getX() - pX,
+                        control.getLocation().y + me.getY() - pY);
+            }
+        });
+
         return top;
     }
     
