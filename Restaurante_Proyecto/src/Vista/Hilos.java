@@ -116,7 +116,7 @@ public class Hilos extends JFrame {
 
         //setUndecorated(true);
         setLocationRelativeTo(null);
-        setVisible(true);
+        //setVisible(true);
         counter.addLabel(info);
         counter.run();
     }

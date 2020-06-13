@@ -5,15 +5,15 @@
  */
 package Vista;
 
+import restaurante_proyecto.Launcher;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
@@ -50,7 +50,10 @@ public class Ventana_Principal extends JFrame
     private JFrame control;
     int pX,pY;
     JLabel labelTitulo;
-    
+
+    //Para intentar lanzar
+    private Launcher launcher;
+
     public Ventana_Principal()
     {
         super("RESTAURANTE");
@@ -128,24 +131,32 @@ public class Ventana_Principal extends JFrame
         meseros.setBackground(btnMeseros);
         meseros.setForeground(Color.white);
         meseros.setFocusPainted(false);
+
+        meseros.setActionCommand("meseros");
         
         cocina = new JButton("COCINA");
         cocina.setPreferredSize(new Dimension(130,130));
         cocina.setBackground(btnCocina);
         cocina.setForeground(Color.white);
         cocina.setFocusPainted(false);
+
+        cocina.setActionCommand("cocina");
         
         barra = new JButton("BARRA");
         barra.setPreferredSize(new Dimension(130,130));
         barra.setBackground(btnBarra);
         barra.setForeground(Color.white);
         barra.setFocusPainted(false);
+
+        barra.setActionCommand("barra");
         
         caja = new JButton("CAJA");
         caja.setPreferredSize(new Dimension(130,130));
         caja.setBackground(btnCaja);
         caja.setForeground(Color.white);
         caja.setFocusPainted(false);
+
+        caja.setActionCommand("caja");
         
         //content.add(Box.createRigidArea(new Dimension(20, 20)));
         content.add(meseros);
@@ -153,7 +164,38 @@ public class Ventana_Principal extends JFrame
         content.add(barra);
         content.add(caja); 
         //content.add(Box.createRigidArea(new Dimension(20, 20)));
+
+        controlAbrir controlAbrir=new controlAbrir();
+        meseros.addActionListener(controlAbrir);
+        cocina.addActionListener(controlAbrir);
+        barra.addActionListener(controlAbrir);
+        caja.addActionListener(controlAbrir);
+
         return content;
+    }
+    private  class controlAbrir implements ActionListener
+    {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            switch (e.getActionCommand()){
+                case "meseros":
+                    launcher.lanzarMeseros();
+                    break;
+                case "cocina":
+                    launcher.lanzarCocina();
+                    break;
+                case "barra":
+                    launcher.lanzarBarra();
+                    break;
+                case "caja":
+                    launcher.lanzarCaja();
+            }
+        }
+    }
+    public void conectarLauncher(Launcher l)
+    {
+        launcher=l;
     }
     
     public JPanel panelInferior()
